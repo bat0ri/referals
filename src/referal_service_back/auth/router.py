@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from auth.schemas import UserInputSchema, TokenInput
+from auth.schemas import UserInputSchema, TokenInput, UserRegisterSchema
 from auth import service, security
 
 
@@ -7,7 +7,7 @@ router = APIRouter()
 
 
 @router.post("/create", status_code=200)
-async def registration(user: UserInputSchema):
+async def registration(user: UserRegisterSchema):
     return await service.create_user(user)
 
 

@@ -1,11 +1,16 @@
-from pydantic import BaseModel, UUID4
+from pydantic import BaseModel, UUID4, Field
 import uuid
 from datetime import datetime
+from typing import Optional
 
 
 class UserInputSchema(BaseModel):
     email: str
     password: str
+
+
+class UserRegisterSchema(UserInputSchema):
+    code: Optional[str] = None
 
 
 class TokenInput(BaseModel):
