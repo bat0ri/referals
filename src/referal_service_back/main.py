@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import uvicorn
 from auth.router import router
+from referal.router import router as ref_router
 from referal.repository import CodeRepository, ReferalshipRepository
 
 
@@ -13,7 +14,8 @@ async def ping_service():
     }
 
 
-app.include_router(router=router, prefix='/auth', tags=['AUTH endpoints'])
+app.include_router(router=router, prefix='/auth', tags=['Auth endpoints'])
+app.include_router(router=ref_router)
 
 @app.get('/codes/list')
 async def get_all_ref():
