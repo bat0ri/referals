@@ -6,8 +6,8 @@ services:
     image: postgres:alpine3.18
     container_name: auth_db
     restart: always
-    ports:
-      - "5420:5432"
+    networks:
+      - custom
     volumes:
       - db-data-auth:/var/lib/postgresql/data
     environment:
@@ -15,5 +15,22 @@ services:
       - POSTGRES_PASSWORD=12345
       - POSTGRES_DB=users
 
+  auth:
+    image: referals_fastapi
+    container_name: referals_fastapi
+    depends_on:
+      - db_auth
+    build:
+      context: referal_service_back/
+      dockerfile: Dockerfile
+    command: 'sh -c "alembic upgrade head && python main.py"'
+    networks:
+      - custom
+    ports:
+      - 8000:8000
+
+networks:
+  custom:
+    driver: bridge
 volumes:
   db-data-auth:
